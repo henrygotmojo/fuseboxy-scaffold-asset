@@ -24,7 +24,7 @@ $(function(){
 	// init datetime-picker when page ready
 	// ===> also when inline-edit & modal shows up
 	fuseboxyScaffold__initDatetimePicker();
-	$(document).on('ready ajaxLoad.bsx shown.bs.modal', function(evt){
+	$(document).on('ajaxLoad.bsx shown.bs.modal', function(evt){
 		window.setTimeout(function(){
 			fuseboxyScaffold__initDatetimePicker();
 		}, 500);
@@ -93,22 +93,21 @@ $(function(){
 
 
 function fuseboxyScaffold__initDatetimePicker(){
-	$('.scaffold-input-date,.scaffold-input-time,.scaffold-input-datetime').not('.datetimepicker-ready').each(function(){
+	$('.scaffold-input-datetime,.scaffold-input-date,.scaffold-input-time').not('.datetimepicker-ready').each(function(){
+		var config = {};
+		var $field = $(this);
 		// config
-		if ( $(this).hasClass('scaffold-input-date') ) {
-			var format = 'YYYY-MM-DD';
-		} else if ( $(this).hasClass('scaffold-input-time') ) {
-			var format = 'HH:mm';
+		if ( $field.hasClass('scaffold-input-date') ) {
+			config = { format: 'Y-m-d', datepicker: true, timepicker: false };
+		} else if ( $field.hasClass('scaffold-input-time') ) {
+			config = { format: 'H:i', datepicker: false, timepicker: true, step: 30 };
 		} else {
-			var format = 'YYYY-MM-DD HH:mm';
+			config = { format: 'Y-m-d H:i', datepicker: true, timepicker: true, step: 30 };
 		}
 		// transform
-		$(this).datetimepicker({
-			'format' : format,
-			'sideBySide' : true
-		});
+		$field.datetimepicker(config);
 		// mark complete
-		$(this).addClass('datetimepicker-ready');
+		$field.addClass('datetimepicker-ready');
 	});
 }
 
@@ -150,7 +149,7 @@ function fuseboxyScaffold__initAjaxUploader(){
 				$previewImg.parent().hide();
 				$undoBtn.show();
 				$removeBtn.hide();
-			}).removeClass('text-white');
+			}).removeClass('text-white').addClass('bg-white');
 			// click button to restore to original image
 			$undoBtn.on('click', function(evt){
 				evt.preventDefault();
@@ -159,7 +158,7 @@ function fuseboxyScaffold__initAjaxUploader(){
 				$previewImg.attr('src', $undoBtn.attr('data-original-image'));
 				$undoBtn.hide();
 				$removeBtn.show();
-			}).removeClass('text-white');
+			}).removeClass('text-white').addClass('bg-white');
 			// validation
 			if ( !$fieldContainer.attr('data-upload-url') ) {
 				alert('attribute [data-upload-url] is required for file upload');
@@ -175,7 +174,7 @@ function fuseboxyScaffold__initAjaxUploader(){
 				// init ajax uploader
 				var uploader = new ss.SimpleUpload({
 					//----- essential config -----
-					button: $uploadBtn.removeClass('text-white'),
+					button: $uploadBtn.removeClass('text-white').addClass('bg-white'),
 					name: $fieldContainer.attr('id'),
 					url: _uploadUrl,
 					//----- optional config -----
