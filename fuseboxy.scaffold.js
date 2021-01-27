@@ -37,31 +37,34 @@ $(function(){
 		// check if any scaffold header
 		$('.scaffold-header').each(function(){
 			var $header = $(this);
-			var $container = $header.closest('.scaffold-list');
+			var $headerInner = $header.find('> .scaffold-header-inner');
+			if ( !$headerInner.length ) $headerInner = $header.wrapInner('<div class="scaffold-header-inner"></div>');
 			// current status
-			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-header') && $window.scrollTop() >  $container.offset().top );
-			var scrollUpAndReachHeader = (  $header.hasClass('sticky-header') && $window.scrollTop() <= $container.offset().top );
+			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-header') && $window.scrollTop() >  $header.offset().top );
+			var scrollUpAndReachHeader = (  $header.hasClass('sticky-header') && $window.scrollTop() <= $header.offset().top );
 			// make header sticky
 			if ( scrollDownBeyondHeader ) {
-				$header.css({
-					'left'     : $container.offset().left,
+				$header.addClass('sticky-header');
+				$headerInner.css({
+					'left'     : $header.offset().left,
 					'position' : 'fixed',
 					'top'      : 0,
-					'width'    : $container.width()
-				}).addClass('sticky-header');
+					'width'    : $header.width()
+				});
 			// rollback header to original state
 			} else if ( scrollUpAndReachHeader ) {
-				$header.css({
+				$header.removeClass('sticky-header');
+				$headerInner.css({
 					'left'     : 0,
 					'position' : 'static',
 					'top'      : 0,
 					'width'    : '100%'
-				}).removeClass('sticky-header');
+				});
 			// refresh header
 			} else if ( $header.hasClass('sticky-header') ) {
-				$header.css({
-					'left'  : $container.offset().left,
-					'width' : $container.width()
+				$headerInner.css({
+					'left'  : $header.offset().left,
+					'width' : $header.width()
 				});
 			}
 		});
