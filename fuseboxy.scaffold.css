@@ -1,0 +1,5 @@
+/* fix font size of summernote editor */
+.note-editable * {
+	font-size: 14px !important;
+	line-height: inherit !important;
+}
