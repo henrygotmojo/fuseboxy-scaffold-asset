@@ -77,7 +77,7 @@ $(function(){
 
 
 function fuseboxyScaffold__initDatetimePicker(){
-	$('.scaffold-input-datetime,.scaffold-input-date,.scaffold-input-time').not('.datetimepicker-ready').each(function(){
+	$('.scaffold-input-datetime,.scaffold-input-date,.scaffold-input-time').not('.datepicker-ready').each(function(){
 		var config = {};
 		var $field = $(this);
 		// config
@@ -91,7 +91,7 @@ function fuseboxyScaffold__initDatetimePicker(){
 		// transform
 		$field.datetimepicker(config);
 		// mark complete
-		$field.addClass('datetimepicker-ready');
+		$field.addClass('datepicker-ready');
 	});
 }
 
@@ -99,11 +99,11 @@ function fuseboxyScaffold__initDatetimePicker(){
 
 
 function fuseboxyScaffold__initHtmlEditor(){
-	$('.scaffold-input-wysiwyg:not(.summernote-ready').each(function(){
+	$('.scaffold-input-wysiwyg:not(.editor-ready').each(function(){
 		// transform
 		$(this).summernote({ 'height' : $(this).height() });
 		// mark complete
-		$(this).addClass('summernote-ready');
+		$(this).addClass('editor-ready');
 	});
 }
 
@@ -111,7 +111,7 @@ function fuseboxyScaffold__initHtmlEditor(){
 
 
 function fuseboxyScaffold__initAjaxUploader(){
-	$('.scaffold-input-file:not(.simple-ajax-uploader-ready)').each(function(){
+	$('.scaffold-input-file:not(.uploader-ready)').each(function(){
 		var elementID = $(this).attr('id');
 		// apply ajax-upload to this single field
 		$('#'+elementID).each(function(){
@@ -254,7 +254,7 @@ function fuseboxyScaffold__initAjaxUploader(){
 				}); // new-simple-upload
 			} // if-data-upload-url
 			// mark complete
-			$(this).addClass('simple-ajax-uploader-ready');
+			$(this).addClass('uploader-ready');
 		}); // each-element-id
 	}); // each-scaffold-input-file
 } // function
