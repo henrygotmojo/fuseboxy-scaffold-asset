@@ -35,16 +35,16 @@ $(function(){
 	$(window).on('scroll resize', function(evt){
 		var $window = $(this);
 		// check if any scaffold header
-		$('.scaffold-header').each(function(){
+		$('.scaffold-header.sticky').each(function(){
 			var $header = $(this);
 			var $headerInner = $header.find('> .scaffold-header-inner');
 			if ( !$headerInner.length ) $headerInner = $header.wrapInner('<div class="scaffold-header-inner"></div>');
 			// current status
-			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-header') && $window.scrollTop() >  $header.offset().top );
-			var scrollUpAndReachHeader = (  $header.hasClass('sticky-header') && $window.scrollTop() <= $header.offset().top );
+			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-enabled') && $window.scrollTop() >  $header.offset().top );
+			var scrollUpAndReachHeader = (  $header.hasClass('sticky-enabled') && $window.scrollTop() <= $header.offset().top );
 			// make header sticky
 			if ( scrollDownBeyondHeader ) {
-				$header.addClass('sticky-header');
+				$header.addClass('sticky-enabled');
 				$headerInner.css({
 					'left'     : $header.offset().left,
 					'position' : 'fixed',
@@ -53,7 +53,7 @@ $(function(){
 				});
 			// rollback header to original state
 			} else if ( scrollUpAndReachHeader ) {
-				$header.removeClass('sticky-header');
+				$header.removeClass('sticky-enabled');
 				$headerInner.css({
 					'left'     : 0,
 					'position' : 'static',
@@ -61,7 +61,7 @@ $(function(){
 					'width'    : '100%'
 				});
 			// refresh header
-			} else if ( $header.hasClass('sticky-header') ) {
+			} else if ( $header.hasClass('sticky-enabled') ) {
 				$headerInner.css({
 					'left'  : $header.offset().left,
 					'width' : $header.width()
