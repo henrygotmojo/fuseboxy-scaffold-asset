@@ -40,11 +40,11 @@ $(function(){
 			var $headerInner = $header.find('> .scaffold-header-inner');
 			if ( !$headerInner.length ) $headerInner = $header.wrapInner('<div class="scaffold-header-inner"></div>');
 			// current status
-			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-enabled') && $window.scrollTop() >  $header.offset().top );
-			var scrollUpAndReachHeader = (  $header.hasClass('sticky-enabled') && $window.scrollTop() <= $header.offset().top );
+			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-active') && $window.scrollTop() >  $header.offset().top );
+			var scrollUpAndReachHeader = (  $header.hasClass('sticky-active') && $window.scrollTop() <= $header.offset().top );
 			// make header sticky
 			if ( scrollDownBeyondHeader ) {
-				$header.addClass('sticky-enabled');
+				$header.addClass('sticky-active');
 				$headerInner.css({
 					'left'     : $header.offset().left,
 					'position' : 'fixed',
@@ -53,7 +53,7 @@ $(function(){
 				});
 			// rollback header to original state
 			} else if ( scrollUpAndReachHeader ) {
-				$header.removeClass('sticky-enabled');
+				$header.removeClass('sticky-active');
 				$headerInner.css({
 					'left'     : 0,
 					'position' : 'static',
@@ -61,7 +61,7 @@ $(function(){
 					'width'    : '100%'
 				});
 			// refresh header
-			} else if ( $header.hasClass('sticky-enabled') ) {
+			} else if ( $header.hasClass('sticky-active') ) {
 				$headerInner.css({
 					'left'  : $header.offset().left,
 					'width' : $header.width()
