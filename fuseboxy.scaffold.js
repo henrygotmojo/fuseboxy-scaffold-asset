@@ -49,7 +49,8 @@ $(function(){
 					'left'     : $header.offset().left,
 					'position' : 'fixed',
 					'top'      : 0,
-					'width'    : $header.width()
+					'width'    : $header.width(),
+					'z-index'  : 99,
 				});
 			// rollback header to original state
 			} else if ( scrollUpAndReachHeader ) {
