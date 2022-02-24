@@ -216,7 +216,7 @@ function fuseboxyScaffold__initAjaxUploader(){
 						// upload succeed!
 						if ( response.success ) {
 							// update file path
-							$field.val(response.fileUrl);
+							$field.val(response.fileUrl).trigger('change');
 							// refresh preview image
 							$previewImg.parent().show().attr('href', response.fileUrl);
 							$previewImg.attr('src', response.fileUrl);
