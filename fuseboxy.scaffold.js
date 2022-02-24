@@ -50,16 +50,17 @@ $(function(){
 					'position' : 'fixed',
 					'top'      : 0,
 					'width'    : $header.width(),
-					'z-index'  : 99,
+					'z-index'  : 99
 				});
-			// rollback header to original state
+			// restore header to original state
 			} else if ( scrollUpAndReachHeader ) {
 				$header.removeClass('sticky-active');
 				$headerInner.css({
 					'left'     : 0,
 					'position' : 'static',
 					'top'      : 0,
-					'width'    : '100%'
+					'width'    : '100%',
+					'z-index'  : ''
 				});
 			// refresh header
 			} else if ( $header.hasClass('sticky-active') ) {
