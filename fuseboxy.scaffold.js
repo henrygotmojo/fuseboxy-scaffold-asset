@@ -82,14 +82,30 @@ function fuseboxyScaffold__initDatetimePicker(){
 	$('.scaffold-input-datetime,.scaffold-input-date,.scaffold-input-time').not('.datepicker-ready').each(function(){
 		var config = {};
 		var $field = $(this);
-		// config
-		if ( $field.hasClass('scaffold-input-date') ) {
-			config = { format: 'Y-m-d', datepicker: true, timepicker: false };
-		} else if ( $field.hasClass('scaffold-input-time') ) {
-			config = { format: 'H:i', datepicker: false, timepicker: true, step: 30 };
-		} else {
-			config = { format: 'Y-m-d H:i', datepicker: true, timepicker: true, step: 30 };
-		}
+		// config @ date
+		if ( $field.hasClass('scaffold-input-date') ) config = {
+			format: 'Y-m-d',
+			datepicker: true,
+			timepicker: false,
+			scrollMonth : false,
+			scrollInput : false
+		};
+		// config @ time
+		else if ( $field.hasClass('scaffold-input-time') ) config = {
+			format: 'H:i',
+			datepicker: false,
+			timepicker: true,
+			scrollInput : false,
+			step: 30
+		};
+		// config @ datetime
+		else config = {
+			format: 'Y-m-d H:i',
+			datepicker: true,
+			timepicker: true,
+			scrollInput : false,
+			step: 30
+		};
 		// transform
 		$field.datetimepicker(config);
 		// mark complete
