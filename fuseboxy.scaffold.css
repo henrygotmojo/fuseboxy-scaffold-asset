@@ -3,3 +3,29 @@
 	font-size: 14px !important;
 	line-height: inherit !important;
 }
+
+/* sticky header */
+.scaffold-header.sticky {
+	left: 0;
+	position: static;
+	top: 0;
+	width: 100%;
+	z-index: 0;
+}
+.scaffold-header.sticky.sticky-active {
+	position: fixed;
+	top: 0;
+	z-index: 99;
+}
+.scaffold-header.sticky.sticky-active::before {
+	border: solid 1px transparent;
+	bottom: 0;
+	box-shadow: .25rem 0 .5rem 0 rgba(0, 0, 0, 0.3);
+	content: '';
+	display: block;
+	height: 0;
+	left: 0;
+	position: absolute;
+	width: calc(100% - .5rem);
+	z-index: -1;
+}

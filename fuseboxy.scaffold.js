@@ -37,40 +37,29 @@ $(function(){
 		// check if any scaffold header
 		$('.scaffold-header.sticky').each(function(){
 			var $header = $(this);
-			var $headerInner = $header.find('> .scaffold-header-inner');
-			if ( !$headerInner.length ) $headerInner = $header.wrapInner('<div class="scaffold-header-inner"></div>');
+			var $headerPlaceholder = $header.find('+ .scaffold-header-placeholder');
+			// initiate placeholder container (when necessary)
+			if ( !$headerPlaceholder.length ) {
+				$headerPlaceholder = $('<div class="scaffold-header-placeholder"></div>').hide().height($header.outerHeight()).insertAfter($header);
+			}
 			// current status
 			var scrollDownBeyondHeader = ( !$header.hasClass('sticky-active') && $window.scrollTop() >  $header.offset().top );
-			var scrollUpAndReachHeader = (  $header.hasClass('sticky-active') && $window.scrollTop() <= $header.offset().top );
+			var scrollUpAndReachHeader = (  $header.hasClass('sticky-active') && $window.scrollTop() <= $headerPlaceholder.offset().top );
 			// make header sticky
 			if ( scrollDownBeyondHeader ) {
+				$headerPlaceholder.show();
 				$header.addClass('sticky-active');
-				$headerInner.css({
-					'left'     : $header.offset().left,
-					'position' : 'fixed',
-					'top'      : 0,
-					'width'    : $header.width(),
-					'z-index'  : 99
-				});
+				$header.css('left', $headerPlaceholder.offset().left).css('width', $headerPlaceholder.outerWidth());
 			// restore header to original state
 			} else if ( scrollUpAndReachHeader ) {
+				$headerPlaceholder.hide();
 				$header.removeClass('sticky-active');
-				$headerInner.css({
-					'left'     : 0,
-					'position' : 'static',
-					'top'      : 0,
-					'width'    : '100%',
-					'z-index'  : ''
-				});
-			// refresh header
+			// refresh header position
 			} else if ( $header.hasClass('sticky-active') ) {
-				$headerInner.css({
-					'left'  : $header.offset().left,
-					'width' : $header.width()
-				});
+				$header.css('left', $headerPlaceholder.offset().left).css('width', $headerPlaceholder.outerWidth());
 			}
 		});
-	});
+	}).scroll();
 
 
 }); // document-ready
