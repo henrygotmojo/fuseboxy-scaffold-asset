@@ -139,17 +139,18 @@ function fuseboxyScaffold__initAjaxUploader(){
 	// file field buttons behavior
 	$('.scaffold-input-file:not(.uploader-ready)').each(function(){
 		// elements
-		var $fieldContainer = $(this);
-		var $field = $fieldContainer.find('input[type=text]');
-		var $uploadBtn = $fieldContainer.find('.btn-upload');
-		var $removeBtn = $fieldContainer.find('.btn-remove');
-		var $undoBtn = $fieldContainer.find('.btn-undo');
-		var $previewImg = $fieldContainer.find('.img-thumbnail');
-		var $ajaxForm = $fieldContainer.closest('form').parent().find('.scaffold-ajax-upload');
+		var $container  = $(this);
+		var $ajaxForm   = $container.closest('form').parent().find('form.scaffold-ajax-upload');
+		var $field      = $container.find('input[type=text]');
+		var $chooseBtn  = $container.find('.btn-choose');
+		var $removeBtn  = $container.find('.btn-remove');
+		var $undoBtn    = $container.find('.btn-undo');
+		var $previewImg = $container.find('.img-thumbnail');
 		// click button to select file (in hidden form)
-		$uploadBtn.on('click', function(evt){
+		$chooseBtn.on('click', function(evt){
 			evt.preventDefault();
-			$ajaxForm.attr('data-target', '#'+$fieldContainer.attr('id')).find('input[type=file]').click();
+			$ajaxForm.attr('action', $chooseBtn.attr('data-form-action'));
+			$ajaxForm.attr('data-target', '#'+$container.attr('id')).find('input[type=file]').click();
 		}).removeClass('text-white').addClass('bg-white');
 		// click button to clear selected image
 		$removeBtn.on('click', function(evt){
