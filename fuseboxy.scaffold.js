@@ -138,7 +138,7 @@ function fuseboxyScaffold__initAjaxUploader(){
  			'data-target'     : $field.attr('data-target'),
  			'data-callback'   : "fuseboxyScaffold__initAjaxUploader(); $('#"+ajaxFormID+"').remove();",
  			'data-transition' : 'none',
- 		}).appendTo('body');
+ 		}).hide().appendTo('body');
 		// hidden file field
 		// ===> choose file & auto-submit
 		var $hiddenFileField = $ajaxForm.find('[type=file]');
