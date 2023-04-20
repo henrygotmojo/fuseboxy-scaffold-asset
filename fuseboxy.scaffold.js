@@ -118,58 +118,60 @@ function fuseboxyScaffold__initHtmlEditor(){
 
 
 function fuseboxyScaffold__initAjaxUploader(){
-	// hidden form behavior
-	$('.scaffold-ajax-upload:not(.uploader-ready)').each(function(){
-		var $ajaxForm = $(this);
-		var $inputField = $(this).find('input[type=file]');
-		// choose file & auto-submit
-		$inputField.on('change', function(evt){
-			if ( $(this).val().length ) $ajaxForm.find(':submit').click();
-		});
-		// validate before submit
-		$ajaxForm.on('submit', function(evt){
-			var dataTarget = $(this).attr('data-target');
-			if ( !dataTarget || !$(dataTarget).length ) evt.preventDefault();
-			if ( !dataTarget ) alert('Attribute [data-target] not specified');
-			else if ( !$(dataTarget).length ) alert('Element ['+dataTarget+'] not found');
-		});
-		// mark complete
-		$ajaxForm.addClass('uploader-ready');
-	});
 	// file field buttons behavior
 	$('.scaffold-input-file:not(.uploader-ready)').each(function(){
 		// elements
 		var $container  = $(this);
-		var $ajaxForm   = $container.closest('form').parent().find('form.scaffold-ajax-upload');
-		var $field      = $container.find('input[type=text]');
-		var $chooseBtn  = $container.find('.btn-choose');
-		var $removeBtn  = $container.find('.btn-remove');
-		var $undoBtn    = $container.find('.btn-undo');
-		var $previewImg = $container.find('.img-thumbnail');
-		// click button to select file (in hidden form)
+		var $field      = $container.find('[data-toggle=ajax-upload]');
+		var $chooseBtn  = $( $field.attr('data-choose-button') );
+		var $removeBtn  = $( $field.attr('data-remove-button') );
+		var $undoBtn    = $( $field.attr('data-undo-button') );
+		var $preview    = $( $field.attr('data-preview') );
+		// create hidden form
+		var ajaxFormID = $container.attr('id')+'-ajax-upload';
+		var $ajaxForm = $('<form><input type="file" name="file" /><button type="submit">Upload</button></form>').attr({
+			'id'              : ajaxFormID,
+ 			'action'          : $field.attr('data-form-action'),
+			'method'          : 'post',
+			'enctype'         : 'multipart/form-data',
+ 			'data-toggle'     : 'ajax-submit',
+ 			'data-target'     : $field.attr('data-target'),
+ 			'data-callback'   : "fuseboxyScaffold__initAjaxUploader(); $('#"+ajaxFormID+"').remove();",
+ 			'data-transition' : 'none',
+ 		}).appendTo('body');
+		// hidden file field
+		// ===> choose file & auto-submit
+		var $hiddenFileField = $ajaxForm.find('[type=file]');
+		$hiddenFileField.on('change', function(evt){
+			evt.preventDefault();
+			if ( $(this).val().length ) $ajaxForm.find(':submit').click();
+		});
+		// choose button
+		// ===> open file select dialog
 		$chooseBtn.on('click', function(evt){
 			evt.preventDefault();
-			$ajaxForm.attr('action', $chooseBtn.attr('data-form-action'));
-			$ajaxForm.attr('data-target', '#'+$container.attr('id')).find('input[type=file]').click();
-		}).removeClass('text-white').addClass('bg-white');
-		// click button to clear selected image
+			$hiddenFileField.click();
+		}).removeClass('disabled');
+		// remove button
+		// ===> click to clear selected image
 		$removeBtn.on('click', function(evt){
 			evt.preventDefault();
 			$field.val('');
-			$previewImg.parent().hide();
+			$preview.parent().hide();
 			$undoBtn.removeClass('d-none');
 			$removeBtn.hide();
 		});
-		// click button to restore to original image
+		// undo button
+		// ===> click to restore to original image
 		$undoBtn.on('click', function(evt){
 			evt.preventDefault();
 			$field.val( $undoBtn.attr('data-original-image') );
-			$previewImg.parent().show().attr('href', $undoBtn.attr('data-original-image'));
-			$previewImg.attr('src', $undoBtn.attr('data-original-image'));
+			$preview.parent().show().attr('href', $undoBtn.attr('data-original-image'));
+			$preview.attr('src', $undoBtn.attr('data-original-image'));
 			$undoBtn.addClass('d-none');
 			$removeBtn.show();
 		});
 		// mark complete
-		$field.addClass('uploader-ready');
+		$container.addClass('uploader-ready');
 	});
 }
