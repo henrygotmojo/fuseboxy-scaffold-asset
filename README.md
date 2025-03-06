@@ -1,4 +1,1 @@
-JS & CSS for Fuseboxy Scaffold (v2.x)
-=====================================
-
-Public repo for CDN
+This repo is kept as an ARCHIVE for CDN. Newer version is under `fuseboxy` repo
